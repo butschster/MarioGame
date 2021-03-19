@@ -1,18 +1,17 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
-  </div>
+  <canvas ref="screen" width="640" height="480"/>
 </template>
 
 <script lang="ts">
+import createGame from '@/Game';
 import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 
 export default defineComponent({
-  name: 'Home',
-  components: {
-    HelloWorld,
-  },
+  mounted() {
+    const canvas: any = this.$refs.screen;
+    const context = canvas.getContext('2d');
+
+    createGame(context);
+  }
 });
 </script>
