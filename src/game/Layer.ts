@@ -1,3 +1,5 @@
+import {RenderInterface} from "@/Game";
+
 export interface LayerInterface {
-    drawLayer(context: CanvasRenderingContext2D): void;
+    drawLayer(render: RenderInterface): void;
 }

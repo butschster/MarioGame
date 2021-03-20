@@ -47,16 +47,18 @@ export default class SpriteSheet {
         );
     }
 
-    defineTile(tile: Tile, x: number, y: number): void {
-        this.define(tile, x * tile.width, y * tile.height);
+    defineTile(tile: Tile, x: number, y: number): this {
+        this.define(tile, x, y);
+
+        return this;
     }
 
-    define(tile: Tile, x: number, y: number): void {
+    define(tile: Tile, x: number, y: number): this {
         const image = new CanvasBuffer(tile.width, tile.height)
 
-        const boundingBox = tile.boundingBox(x, y);
+        const boundingBox = tile.boundingBox(x * tile.width, y * tile.height);
 
-        image.draw(this.image, x, y);
+        image.draw(this.image, x * tile.width, y * tile.height);
 
         this.tiles.set(
             tile.name,
@@ -66,5 +68,7 @@ export default class SpriteSheet {
                 boundingBox
             )
         );
+
+        return this;
     }
 }

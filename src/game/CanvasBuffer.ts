@@ -1,4 +1,4 @@
-import {BoundingBox} from "@/game/Geometry";
+import {BoundingBox, Vec2} from "@/game/Geometry";
 
 export default class CanvasBuffer {
     readonly buffer: HTMLCanvasElement;
@@ -25,14 +25,14 @@ export default class CanvasBuffer {
         )
     }
 
-    drawRect(boundingBox: BoundingBox, color = 'blue'): void {
+    drawRect(boundingBox: BoundingBox, color = 'blue', offset: Vec2 = new Vec2(0, 0)): void {
         this.context.strokeStyle = color;
 
-        this.context.beginPath();
-        this.context.rect(
-            boundingBox.left, boundingBox.top,
-            boundingBox.width, boundingBox.height
+        this.context.strokeRect(
+            boundingBox.left + offset.x,
+            boundingBox.top + offset.y,
+            boundingBox.width,
+            boundingBox.height
         )
-        this.context.stroke();
     }
 }

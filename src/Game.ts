@@ -3,47 +3,45 @@ import {createMario} from "@/game/factories/MarioFactory";
 import Timer from "@/game/Timer";
 import Keyboard, {KEY_PRESSED} from "@/game/Keyboard";
 import loadLevel from "./game/factories/LevelFactory";
+import {setupMarioKeyboard} from "@/game/Input";
+import Camera from "@/game/Camera";
+import {setupMouseControl} from "@/game/Debug";
 
 export interface GameInterface {
     level: Level,
     deltaTime: number
 }
 
+export interface RenderInterface {
+    camera: Camera,
+    context: CanvasRenderingContext2D
+}
+
 export default function createGame(context: CanvasRenderingContext2D) {
-    const timer = new Timer(1 / 30);
-    const keyboard = new Keyboard();
+    context.imageSmoothingEnabled = false;
+
+    const timer = new Timer(1 / 60);
+    const camera = new Camera();
+    (<any>window).camera = camera;
 
     Promise.all([
         loadLevel('1-1'),
         createMario(),
     ]).then(([level, mario]) => {
 
-        level
-            .registerEntity(mario);
+        const render = {context, camera};
 
-        keyboard
-            .map('Space', (state: symbol) => {
-                if (state === KEY_PRESSED) {
-                    mario.trait('jump').start();
-                } else {
-                    mario.trait('jump').cancel();
-                }
-            })
+        level.registerEntity(mario);
+
+        setupMouseControl(mario, render, 1000);
+
+        setupMarioKeyboard(mario)
             .listenTo(window);
-
-        ['mousedown', 'mousemove'].forEach(eventName => {
-            context.canvas.addEventListener(eventName, (event: any) => {
-                if(event.buttons === 1) {
-                    mario.vel.set(0, 0);
-                    mario.pos.set(event.offsetX, event.offsetY);
-                }
-            })
-        })
 
 
         timer.onTick = function update(deltaTime: number) {
             level.update({deltaTime, level});
-            level.draw(context);
+            level.draw(render);
         }
 
         timer.start();

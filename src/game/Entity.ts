@@ -1,14 +1,13 @@
 import {LayerInterface} from "@/game/Layer";
 import {BoundingBox, Vec2} from "@/game/Geometry";
-import {GameInterface} from "@/Game";
+import {GameInterface, RenderInterface} from "@/Game";
 import SpriteSheet from "@/game/SpritesSheet";
 
 interface TraitInterface {
     readonly name: string;
 
     update(entity: Entity, game: GameInterface): void;
-
-    draw(entity: Entity, context: CanvasRenderingContext2D): void;
+    draw(entity: Entity, render: RenderInterface): void;
 }
 
 export class Trait implements TraitInterface {
@@ -18,7 +17,7 @@ export class Trait implements TraitInterface {
         this.name = name;
     }
 
-    draw(entity: Entity, context: CanvasRenderingContext2D): void {
+    draw(entity: Entity, render: RenderInterface): void {
 
     }
 
@@ -57,12 +56,10 @@ export default class Entity implements LayerInterface {
         return null;
     }
 
-    drawLayer(context: CanvasRenderingContext2D): void {
+    drawLayer(render: RenderInterface): void {
         this.traits.forEach(trait => {
-            trait.draw(this, context);
+            trait.draw(this, render);
         })
-
-        this.sprite.draw('idle', context, this.pos);
     }
 
     update(game: GameInterface): void {

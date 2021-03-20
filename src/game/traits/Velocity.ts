@@ -10,7 +10,5 @@ export default class Velocity extends Trait {
         entity.pos = entity.pos.addVec(
             entity.vel.multiplyAll(game.deltaTime)
         );
-
-        entity.vel.y += game.level.gravity * game.deltaTime;
     }
 }

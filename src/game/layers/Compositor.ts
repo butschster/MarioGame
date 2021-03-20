@@ -1,4 +1,5 @@
 import {LayerInterface} from "@/game/Layer";
+import {RenderInterface} from "@/Game";
 
 export default class Compositor {
     readonly layers: Array<LayerInterface>;
@@ -12,9 +13,9 @@ export default class Compositor {
         return this;
     }
 
-    draw(context: CanvasRenderingContext2D): void {
+    draw(render: RenderInterface): void {
         this.layers.forEach((layer: LayerInterface) => {
-            layer.drawLayer(context)
+            layer.drawLayer(render)
         })
     }
 }

@@ -17,7 +17,7 @@ export function loadMarioSprite(): Promise<SpriteSheet> {
         .then(tiles => {
             const sprites: SpriteSheet = new SpriteSheet(tiles);
 
-            sprites.define(new Tile('idle'), 17, 3);
+            sprites.define(new Tile('idle', false, 14, 16), 16, 2.8);
 
             return sprites;
         })

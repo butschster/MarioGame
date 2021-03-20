@@ -3,7 +3,7 @@ import {Matrix, Vec2} from "@/game/Geometry";
 import Compositor from "@/game/layers/Compositor";
 import Entity from "@/game/Entity";
 import {LayerInterface} from "@/game/Layer";
-import {GameInterface} from "@/Game";
+import {GameInterface, RenderInterface} from "@/Game";
 import LevelSpec, {LevelBackground} from "@/game/level/LevelSpec";
 import TileCollider from "@/game/TileCollider";
 
@@ -43,12 +43,17 @@ export default class Level {
         this.entites.forEach(entity => {
             entity.update(game);
 
+            entity.pos.x += entity.vel.x * game.deltaTime;
+            this.tileCollider.checkX(entity)
+
+            entity.pos.y += entity.vel.y * game.deltaTime;
             this.tileCollider.checkY(entity)
+
         })
     }
 
-    draw(context: CanvasRenderingContext2D): void {
-        this.layers.draw(context);
+    draw(render: RenderInterface): void {
+        this.layers.draw(render);
     }
 
     private createTiles(): void {

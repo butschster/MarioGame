@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import createGame from '@/Game';
-import { defineComponent } from 'vue';
+import {defineComponent} from 'vue';
 
 export default defineComponent({
   mounted() {
@@ -15,3 +15,9 @@ export default defineComponent({
   }
 });
 </script>
+
+<style>
+canvas {
+  image-rendering: pixelated;
+}
+</style>
