@@ -65,6 +65,20 @@ export class Vec2 {
     }
 }
 
+class Collision {
+    readonly bottom: boolean;
+    readonly left: boolean;
+    readonly right: boolean;
+    readonly top: boolean;
+
+    constructor(top: boolean, bottom: boolean, left: boolean, right: boolean) {
+        this.top = top;
+        this.bottom = bottom;
+        this.left = left;
+        this.right = right;
+    }
+}
+
 export class BoundingBox {
     readonly topLeft: Vec2;
     readonly bottomRight: Vec2;
@@ -72,6 +86,22 @@ export class BoundingBox {
     constructor(topLeft: Vec2, bottomRight: Vec2) {
         this.topLeft = topLeft;
         this.bottomRight = bottomRight;
+    }
+
+    get top(): number {
+        return this.topLeft.y;
+    }
+
+    get left(): number {
+        return this.topLeft.x;
+    }
+
+    get right(): number {
+        return this.bottomRight.x;
+    }
+
+    get bottom(): number {
+        return this.bottomRight.y;
     }
 
     get topRight(): Vec2 {
@@ -88,5 +118,14 @@ export class BoundingBox {
 
     get height(): number {
         return this.bottomRight.y - this.topLeft.y;
+    }
+
+    collide(pos: Vec2, vel: Vec2): Collision {
+        return new Collision(
+            false,
+            false,
+            false,
+            false
+        );
     }
 }

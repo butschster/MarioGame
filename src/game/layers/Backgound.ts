@@ -7,7 +7,7 @@ import Level from "@/game/Level";
 export default class BackgroundLayer implements LayerInterface {
     private buffer: CanvasBuffer;
 
-    constructor(level: Level, width = 256, height = 240) {
+    constructor(level: Level, width = 1000, height = 240) {
         this.buffer = new CanvasBuffer(width, height);
         level.tiles.forEach((tile: Tile, pos: Vec2) => {
             level.sprites.drawTile(tile.name, this.buffer.context, pos)

@@ -1,3 +1,5 @@
+import {BoundingBox} from "@/game/Geometry";
+
 export default class CanvasBuffer {
     readonly buffer: HTMLCanvasElement;
     readonly width: number;
@@ -21,5 +23,16 @@ export default class CanvasBuffer {
             dx, dy,
             this.width, this.height
         )
+    }
+
+    drawRect(boundingBox: BoundingBox, color = 'blue'): void {
+        this.context.strokeStyle = color;
+
+        this.context.beginPath();
+        this.context.rect(
+            boundingBox.left, boundingBox.top,
+            boundingBox.width, boundingBox.height
+        )
+        this.context.stroke();
     }
 }

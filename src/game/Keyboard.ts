@@ -28,7 +28,6 @@ export default class Keyboard {
     }
 
     handleEvent(event: KeyboardEvent): void {
-        console.log(this.keyStates)
         const {code} = event;
 
         if (!this.keyMap.has(code)) {

@@ -1,5 +1,5 @@
 import {LayerInterface} from "@/game/Layer";
-import {Vec2} from "@/game/Geometry";
+import {BoundingBox, Vec2} from "@/game/Geometry";
 import {GameInterface} from "@/Game";
 import SpriteSheet from "@/game/SpritesSheet";
 
@@ -32,14 +32,15 @@ export default class Entity implements LayerInterface {
     readonly sprite: SpriteSheet;
     pos: Vec2;
     vel: Vec2;
+    size: Vec2;
     traits: Map<string, TraitInterface>;
 
-    constructor(sprite: SpriteSheet, pos: Vec2, vel: Vec2) {
+    constructor(sprite: SpriteSheet, size: Vec2, pos: Vec2, vel: Vec2) {
         this.sprite = sprite;
         this.pos = pos;
         this.vel = vel;
-
-        this.traits = new Map;
+        this.size = size;
+        this.traits = new Map();
     }
 
     addTrait(trait: TraitInterface): this {
@@ -68,5 +69,12 @@ export default class Entity implements LayerInterface {
         this.traits.forEach(trait => {
             trait.update(this, game);
         })
+    }
+
+    get boundingBox(): BoundingBox {
+        return new BoundingBox(
+            this.pos,
+            this.pos.addVec(this.size)
+        );
     }
 }

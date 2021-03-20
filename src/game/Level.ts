@@ -5,6 +5,7 @@ import Entity from "@/game/Entity";
 import {LayerInterface} from "@/game/Layer";
 import {GameInterface} from "@/Game";
 import LevelSpec, {LevelBackground} from "@/game/level/LevelSpec";
+import TileCollider from "@/game/TileCollider";
 
 export default class Level {
     readonly config: LevelSpec;
@@ -13,6 +14,7 @@ export default class Level {
     readonly layers: Compositor;
     readonly entites: Set<Entity>;
     readonly tiles: Matrix;
+    readonly tileCollider: TileCollider;
 
     constructor(config: LevelSpec, sprites: SpriteSheet) {
         this.config = config;
@@ -23,6 +25,13 @@ export default class Level {
         this.tiles = new Matrix();
 
         this.createTiles();
+        this.tileCollider = new TileCollider(this.tiles);
+    }
+
+    registerEntity(entity: Entity): this {
+        this.entites.add(entity);
+
+        return this;
     }
 
     insertLayer(layer: LayerInterface): this {
@@ -33,6 +42,8 @@ export default class Level {
     update(game: GameInterface): void {
         this.entites.forEach(entity => {
             entity.update(game);
+
+            this.tileCollider.checkY(entity)
         })
     }
 

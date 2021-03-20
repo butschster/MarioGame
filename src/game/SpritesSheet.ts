@@ -6,11 +6,13 @@ export class Tile {
     readonly name: string;
     readonly width: number;
     readonly height: number;
+    readonly solid: boolean;
 
-    constructor(name: string, width = 16, height = 16) {
+    constructor(name: string, solid = false, width = 16, height = 16) {
         this.name = name;
         this.width = width;
         this.height = height;
+        this.solid = solid;
     }
 
     boundingBox(x: number, y: number): BoundingBox {
